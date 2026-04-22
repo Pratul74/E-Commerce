@@ -1,12 +1,21 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 
 function App() {
-  const [isAuth, setIsAuth] = useState(!!localStorage.getItem("token"));
+  const [isAuth, setIsAuth] = useState(null); // 🔥 start as null
+
+  // 🔥 Sync auth on load
+  useEffect(() => {
+    const token = localStorage.getItem("access");
+    setIsAuth(!!token);
+  }, []);
+
+  // ⏳ Prevent flicker / wrong redirect
+  if (isAuth === null) return <div>Loading...</div>;
 
   return (
     <BrowserRouter>
@@ -23,7 +32,11 @@ function App() {
 
         <Route
           path="/"
-          element={isAuth ? <Dashboard setIsAuth={setIsAuth} /> : <Navigate to="/login" />}
+          element={
+            isAuth
+              ? <Dashboard setIsAuth={setIsAuth} />
+              : <Navigate to="/login" />
+          }
         />
       </Routes>
     </BrowserRouter>

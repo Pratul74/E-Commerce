@@ -10,27 +10,36 @@ export default function Login({ setIsAuth }) {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const handleLogin = async () => {
     try {
+      setLoading(true);
+      setError("");
+
       const res = await API.post("auth/login/", form);
 
-      console.log(res.data); // debug
+      localStorage.setItem("access", res.data.access);
+      localStorage.setItem("refresh", res.data.refresh);
 
-      localStorage.setItem("token", res.data.access);
-
-      setIsAuth(true); // 🔥 update auth state
+      setIsAuth(true);
       navigate("/");
-
     } catch (err) {
-      alert("Login failed");
+      setError("Invalid username or password");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="p-6 bg-white shadow rounded w-80">
-
         <h2 className="text-xl font-bold mb-4 text-center">Login</h2>
+
+        {error && (
+          <p className="text-red-500 text-sm mb-3 text-center">{error}</p>
+        )}
 
         <input
           placeholder="Username"
@@ -51,9 +60,10 @@ export default function Login({ setIsAuth }) {
 
         <button
           onClick={handleLogin}
-          className="bg-black text-white w-full py-2 rounded hover:bg-gray-800"
+          disabled={loading}
+          className="bg-black text-white w-full py-2 rounded"
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
 
         <p className="mt-4 text-center text-sm">

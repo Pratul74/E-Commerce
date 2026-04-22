@@ -13,6 +13,7 @@ export default function Dashboard({ setIsAuth }) {
   const [totalPages, setTotalPages] = useState(1);
   const [ordering, setOrdering] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const [form, setForm] = useState({
     name: "",
@@ -23,48 +24,50 @@ export default function Dashboard({ setIsAuth }) {
 
   const [image, setImage] = useState(null);
 
-  const token = localStorage.getItem("token");
+  // 🔥 FIXED TOKEN
+  const token = localStorage.getItem("access");
   let isAdmin = false;
 
   if (token) {
     try {
       const decoded = jwtDecode(token);
-      isAdmin = decoded.role === "ADMIN"; // make sure backend sends role
-    } catch (err) {
+      isAdmin = decoded.role === "ADMIN";
+    } catch {
       console.error("Invalid token");
     }
   }
 
-  useEffect(() => {
-    if (!token) {
-      navigate("/login");
-    }
-  }, []);
-
-
   const fetchProducts = async () => {
     try {
       setLoading(true);
+      setError("");
 
-      const res = await API.get(`products/?search=${search}&page=${page}&ordering=${ordering}`);
+      const res = await API.get(
+        `products/?search=${search}&page=${page}&ordering=${ordering}`
+      );
 
       setProducts(res.data.results);
 
       const pageSize = res.data.results.length || 1;
       setTotalPages(Math.ceil(res.data.count / pageSize));
     } catch (err) {
-      setError("Something went wrong");
-    }
-     finally {
+      setError("Failed to load products");
+    } finally {
       setLoading(false);
     }
   };
 
+  // useEffect(() => {
+  //   fetchProducts();
+  // }, [search, page, ordering]);
   useEffect(() => {
+  const delay = setTimeout(() => {
     fetchProducts();
+  }, 500); // wait 500ms after user stops typing
+
+  return () => clearTimeout(delay);
   }, [search, page, ordering]);
 
-  
   const handleAdd = async () => {
     try {
       const data = new FormData();
@@ -74,9 +77,7 @@ export default function Dashboard({ setIsAuth }) {
       data.append("price", form.price);
       data.append("stock", form.stock);
 
-      if (image) {
-        data.append("image", image);
-      }
+      if (image) data.append("image", image);
 
       await API.post("products/", data);
 
@@ -85,21 +86,20 @@ export default function Dashboard({ setIsAuth }) {
       setPage(1);
 
       fetchProducts();
-    } catch (err) {
-      console.error("Add error:", err);
+    } catch {
+      alert("Failed to add product");
     }
   };
 
-
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
     setIsAuth(false);
   };
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
 
-      
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Dashboard</h1>
 
@@ -110,6 +110,8 @@ export default function Dashboard({ setIsAuth }) {
           Logout
         </button>
       </div>
+
+      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
       <div className="flex gap-4 mb-6">
         <input
