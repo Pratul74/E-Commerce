@@ -2,9 +2,16 @@ from rest_framework import serializers
 from .models import Product
 
 class ProductSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField()
+
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = '__all__' 
+
+    def get_image_url(self, obj):
+        if obj.image:
+            return obj.image.url
+        return None
 
     def validate_name(self, value):
         if len(value) < 3:
@@ -22,6 +29,6 @@ class ProductSerializer(serializers.ModelSerializer):
         return value
     
     def validate(self, data):
-        if data.get('price') > 1000000:
+        if data.get('price') and data.get('price') > 1000000:
             raise serializers.ValidationError("Price too high")
         return data
