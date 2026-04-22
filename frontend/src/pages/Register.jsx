@@ -1,35 +1,68 @@
 import { useState } from "react";
-import API from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import API from "../api/axios";
 
 export default function Register() {
-  const [data, setData] = useState({ username: "", email: "", password: "" });
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await API.post("auth/register/", data);
-    navigate("/");
+  const [form, setForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const handleRegister = async () => {
+    try {
+      await API.post("auth/register/", form);
+      navigate("/login");
+    } catch (err) {
+      alert("Registration failed");
+    }
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-100">
-      <form className="bg-white p-6 rounded-xl shadow w-80" onSubmit={handleSubmit}>
+    <div className="flex justify-center items-center h-screen">
+      <div className="p-6 border rounded w-80">
+
         <h2 className="text-xl font-bold mb-4">Register</h2>
 
-        <input placeholder="Username" className="w-full mb-2 p-2 border"
-          onChange={(e) => setData({...data, username: e.target.value})} />
+        <input
+          placeholder="Username"
+          className="border p-2 w-full mb-2"
+          onChange={(e) => setForm({ ...form, username: e.target.value })}
+        />
 
-        <input placeholder="Email" className="w-full mb-2 p-2 border"
-          onChange={(e) => setData({...data, email: e.target.value})} />
+        <input
+          placeholder="Email"
+          type="email"
+          className="border p-2 w-full mb-2"
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+        />
 
-        <input type="password" placeholder="Password" className="w-full mb-3 p-2 border"
-          onChange={(e) => setData({...data, password: e.target.value})} />
+        <input
+          type="password"
+          placeholder="Password"
+          className="border p-2 w-full mb-2"
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
+        />
 
-        <button className="w-full bg-black text-white py-2 rounded">
+        <button
+          onClick={handleRegister}
+          className="bg-black text-white w-full py-2"
+        >
           Register
         </button>
-      </form>
+
+        <p className="mt-4 text-center">
+          Already have an account?{" "}
+          <span
+            onClick={() => navigate("/login")}
+            className="text-blue-500 cursor-pointer"
+          >
+            Login
+          </span>
+        </p>
+      </div>
     </div>
   );
 }
