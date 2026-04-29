@@ -1,0 +1,381 @@
+{
+  "info": {
+    "_postman_id": "4d4ed1eb-1ce4-43ea-9393-63c0c9dc5d31",
+    "name": "E-Commerce",
+    "description": "This collection provides a complete set of APIs for an **E-Commerce Product Management System**. It includes endpoints for user authentication and product operations, built using Django REST Framework.\n\n### 🔑 Key Features:\n\n- JWT-based authentication (Login & Register)  \n    \n- Role-based access control (Admin/User)  \n    \n- Full CRUD operations for products  \n    \n- Pagination, search, and sorting support  \n    \n- Secure endpoints using Bearer token authentication  \n    \n\n### 🔐 Authentication Flow:\n\n1. Register a new user\n    \n2. Login to receive **access & refresh tokens**\n    \n3. Use the **access token** in Authorization header: - Authorization: Bearer",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52578676",
+    "_collection_link": "https://go.postman.co/collection/52578676-4d4ed1eb-1ce4-43ea-9393-63c0c9dc5d31?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Accounts",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "username",
+                  "value": "example",
+                  "type": "text",
+                  "uuid": "37bae4b6-b320-4519-b0de-f888565f3ae1"
+                },
+                {
+                  "key": "email",
+                  "value": "example@example.com",
+                  "type": "text",
+                  "uuid": "c1a75054-afe5-463e-8f8c-d1da7c86fe5e"
+                },
+                {
+                  "key": "password",
+                  "value": "example",
+                  "type": "text",
+                  "uuid": "b6720adc-d9b1-407f-9580-21dd47540491"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/auth/register/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "register",
+                ""
+              ]
+            },
+            "description": "Registers a new user in the system.\n\n**Method:** `POST`  \n**Endpoint:** `/api/v1/auth/register/`"
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "username",
+                  "value": "Pratul74",
+                  "type": "text",
+                  "uuid": "37bae4b6-b320-4519-b0de-f888565f3ae1"
+                },
+                {
+                  "key": "password",
+                  "value": "password",
+                  "type": "text",
+                  "uuid": "c1a75054-afe5-463e-8f8c-d1da7c86fe5e"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/auth/login/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "login",
+                ""
+              ]
+            },
+            "description": "Authenticates a user and returns JWT tokens.\n\n**Method:** `POST`  \n**Endpoint:** `/api/v1/auth/login/`"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Create Products",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": " eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2ODY5ODk1LCJpYXQiOjE3NzY4Njg5OTUsImp0aSI6IjMyZWEzMjNiNDU1MDQ0ZGU5NDkzODk4ZDE0MzIyNTc5IiwidXNlcl9pZCI6IjEiLCJyb2xlIjoiQURNSU4ifQ.Zdq2Z6UVS9m8mXcr0_ZeVCAUHws2bFtJp_XJJr_rg7I",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "honda shine",
+                  "type": "text",
+                  "uuid": "37bae4b6-b320-4519-b0de-f888565f3ae1"
+                },
+                {
+                  "key": "description",
+                  "value": "125cc commuter",
+                  "type": "text",
+                  "uuid": "c1a75054-afe5-463e-8f8c-d1da7c86fe5e"
+                },
+                {
+                  "key": "price",
+                  "value": "100000",
+                  "type": "text",
+                  "uuid": "b6720adc-d9b1-407f-9580-21dd47540491"
+                },
+                {
+                  "key": "stock",
+                  "value": "100",
+                  "type": "text",
+                  "uuid": "e50cd7db-bfc6-4928-917a-a66f2cba7a2a"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/products/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "products",
+                ""
+              ]
+            },
+            "description": "Creates a new product.  \n  \n⚠️ Requires **Admin access**\n\n**Method:** `POST`  \n**Endpoint:** `/api/v1/products/`"
+          },
+          "response": []
+        },
+        {
+          "name": "Products List",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": " eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2ODY5ODk1LCJpYXQiOjE3NzY4Njg5OTUsImp0aSI6IjMyZWEzMjNiNDU1MDQ0ZGU5NDkzODk4ZDE0MzIyNTc5IiwidXNlcl9pZCI6IjEiLCJyb2xlIjoiQURNSU4ifQ.Zdq2Z6UVS9m8mXcr0_ZeVCAUHws2bFtJp_XJJr_rg7I",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "honda shine",
+                  "type": "text",
+                  "uuid": "37bae4b6-b320-4519-b0de-f888565f3ae1"
+                },
+                {
+                  "key": "description",
+                  "value": "125cc commuter",
+                  "type": "text",
+                  "uuid": "c1a75054-afe5-463e-8f8c-d1da7c86fe5e"
+                },
+                {
+                  "key": "price",
+                  "value": "100000",
+                  "type": "text",
+                  "uuid": "b6720adc-d9b1-407f-9580-21dd47540491"
+                },
+                {
+                  "key": "stock",
+                  "value": "100",
+                  "type": "text",
+                  "uuid": "e50cd7db-bfc6-4928-917a-a66f2cba7a2a"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/products/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "products",
+                ""
+              ]
+            },
+            "description": "Fetches a paginated list of products with optional search and sorting.\n\n**Method:** `GET`  \n**Endpoint:** `/api/v1/products/`"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": " eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2ODY5ODk1LCJpYXQiOjE3NzY4Njg5OTUsImp0aSI6IjMyZWEzMjNiNDU1MDQ0ZGU5NDkzODk4ZDE0MzIyNTc5IiwidXNlcl9pZCI6IjEiLCJyb2xlIjoiQURNSU4ifQ.Zdq2Z6UVS9m8mXcr0_ZeVCAUHws2bFtJp_XJJr_rg7I",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Lenovo Pad",
+                  "type": "text",
+                  "uuid": "37bae4b6-b320-4519-b0de-f888565f3ae1"
+                },
+                {
+                  "key": "description",
+                  "value": "Good tablet",
+                  "type": "text",
+                  "uuid": "c1a75054-afe5-463e-8f8c-d1da7c86fe5e"
+                },
+                {
+                  "key": "price",
+                  "value": "25000",
+                  "type": "text",
+                  "uuid": "b6720adc-d9b1-407f-9580-21dd47540491"
+                },
+                {
+                  "key": "stock",
+                  "value": "100",
+                  "type": "text",
+                  "uuid": "e50cd7db-bfc6-4928-917a-a66f2cba7a2a"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/products/1/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "products",
+                "1",
+                ""
+              ]
+            },
+            "description": "Updates an existing product.  \n⚠️ Requires **Admin access**\n\n**Method:** `PUT`  \n**Endpoint:** `/api/v1/products/{id}/`"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": " eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2ODY5ODk1LCJpYXQiOjE3NzY4Njg5OTUsImp0aSI6IjMyZWEzMjNiNDU1MDQ0ZGU5NDkzODk4ZDE0MzIyNTc5IiwidXNlcl9pZCI6IjEiLCJyb2xlIjoiQURNSU4ifQ.Zdq2Z6UVS9m8mXcr0_ZeVCAUHws2bFtJp_XJJr_rg7I",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Lenovo Pad",
+                  "type": "text",
+                  "uuid": "37bae4b6-b320-4519-b0de-f888565f3ae1"
+                },
+                {
+                  "key": "description",
+                  "value": "Good tablet",
+                  "type": "text",
+                  "uuid": "c1a75054-afe5-463e-8f8c-d1da7c86fe5e"
+                },
+                {
+                  "key": "price",
+                  "value": "25000",
+                  "type": "text",
+                  "uuid": "b6720adc-d9b1-407f-9580-21dd47540491"
+                },
+                {
+                  "key": "stock",
+                  "value": "100",
+                  "type": "text",
+                  "uuid": "e50cd7db-bfc6-4928-917a-a66f2cba7a2a"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/products/1/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "products",
+                "1",
+                ""
+              ]
+            },
+            "description": "Deletes a product by ID.  \n  \n⚠️ Requires **Admin access**\n\n**Method:** `DELETE`  \n**Endpoint:** `/api/v1/products/{id}/`"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
