@@ -18,7 +18,7 @@ SECRET_KEY = 'django-insecure-l6c)h9sg)5tvvfk^z3ud&oi^$h93)-n#8!hq*pi&*0+v^sskck
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     'accounts',
     'products',
     'django_filters',
-    'corsheaders',
     'storages',
 ]
 
@@ -75,11 +74,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ecommerce_db',
-        'USER': 'postgres',
-        'PASSWORD': 'password',
-        'HOST':'localhost',
-        'PORT':'5432',
+        'NAME': os.getenv('POSTGRES_DB', 'ecommerce-db'),
+        'USER': os.getenv('POSTGRES_USER', 'pratul'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'password'),
+        'HOST': os.getenv('DB_HOST', 'db'),
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
 
@@ -136,7 +135,6 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
-CORS_ALLOW_ALL_ORIGINS = True
 
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')

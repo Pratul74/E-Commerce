@@ -1,10 +1,9 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/v1/",
+  baseURL: "/api/v1/",
 });
 
-// 🔐 Attach access token
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem("access");
   if (token) {
@@ -13,7 +12,6 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
-// 🔄 Auto refresh token
 API.interceptors.response.use(
   (res) => res,
   async (err) => {

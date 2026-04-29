@@ -1,0 +1,57 @@
+version: "3.9"
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    networks:
+      - ecommerce
+    restart: always
+    depends_on:
+      - django
+
+  db:
+    container_name: db
+    image: postgres:15
+    networks:
+      - ecommerce
+    volumes:
+      - mypostgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+  django:
+    container_name: django
+    build:
+      context: ./backend
+    command: sh -c "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 config.wsgi:application"
+    networks:
+      - ecommerce
+    ports:
+      - "8000:8000"
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mypostgres-data:
+
+networks:
+  ecommerce:
