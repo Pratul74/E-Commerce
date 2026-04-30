@@ -1,4 +1,4 @@
-# 🛒 E-Commerce Product Management System
+# 🛒  E-Commerce Product Management System
 
 A full-stack **E-Commerce Product Management System** built using **Django REST Framework** and **React.js**, featuring authentication, role-based access control, caching, and optimized API performance.
 
