@@ -6,7 +6,7 @@ pipeline{
     stages{
         stage("Code"){
             steps{
-                echo "Clonning the Project code from github"
+                echo "Clonning the code from github"
                 script{
                     gitclone("https://github.com/Pratul74/E-Commerce.git", "main")
                 }
