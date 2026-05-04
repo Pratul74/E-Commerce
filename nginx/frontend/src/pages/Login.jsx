@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api/axios";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Login({ setIsAuth }) {
   const navigate = useNavigate();
@@ -10,6 +11,7 @@ export default function Login({ setIsAuth }) {
     password: "",
   });
 
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -49,14 +51,26 @@ export default function Login({ setIsAuth }) {
           }
         />
 
-        <input
-          type="password"
-          placeholder="Password"
-          className="border p-2 w-full mb-3 rounded"
-          onChange={(e) =>
-            setForm({ ...form, password: e.target.value })
-          }
-        />
+        {/* Password Field with Toggle */}
+        <div className="relative mb-3">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            className="border p-2 w-full rounded pr-10"
+            onChange={(e) =>
+              setForm({ ...form, password: e.target.value })
+            }
+          />
+
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </button>
+        </div>
 
         <button
           onClick={handleLogin}
